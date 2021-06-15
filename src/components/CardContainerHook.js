@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React, {useState, useEffect} from 'react';
 import Card from './Card';
 
 const referensData = [
@@ -30,19 +30,13 @@ const referensData = [
 ]
 
 
+function CardContainer(){
 
-class CardContainer extends React.Component {
+    const [referens, setReferences] = useState(referensData);
 
-    constructor(){
-        super();
-        this.state = {
-            referens: referensData,
-            contador: 0
-        }
-    
-    }
+    const [contador, setContador] = useState(0)
 
-    addNewCard = () => {
+    const addNewCard = () => {
         const newReference =  {
             message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
             user: {
@@ -51,29 +45,27 @@ class CardContainer extends React.Component {
                 photo: 'https://picsum.photos/id/237/200/300'
             }
         }
-
-        this.setState({
-            ...this.state,
-            referens: [...this.state.referens, newReference]
-        })
+        setReferences([...referens, newReference])
     }
 
-    buttonFunction = () => {
+    const buttonFunction = () => {
         alert('esta funcion esta desde el padre')
     }
 
-    render(){
+    useEffect(() => { console.log('esto es un componentDidMount')}, []) // componentDidMount
 
-        return(
-            <div>
-                Container Card
-              //5  {this.state.referens.map((item, key) => 
-                    <Card {...item} buttonFunction={this.buttonFunction} />)}
+    useEffect(() => { console.log('cada vez que reference cambien yo cambio')
+}, [referens]) // componentDidMount
+    
+    return(
+        <div>
+            Container Card
+          {referens.map((item, key) => 
+                <Card {...item} buttonFunction={buttonFunction} />)}
 
-                <button onClick={this.addNewCard}>Agregar Referencia</button>    
-            </div>
-        )
-    }
+            <button onClick={addNewCard}>Agregar Referencia</button>    
+        </div>
+    )
 }
 
 export default CardContainer;

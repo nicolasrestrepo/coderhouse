@@ -1,11 +1,11 @@
 
-import CardContainer from './components/CardContainer';
 import './App.css';
+import ItemCount from 'ItemCount';
 
 function App() {
   return (
     <div class="App">
-        <CardContainer />
+        <ItemCount initial={1} stock={5} onAdd={() => console.log('agregado')}/>
     </div>
   );
 }
